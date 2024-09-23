@@ -5,9 +5,9 @@ const Table = ({ employees, delEmployee }) => {
     <table>
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Job</th>
-          <th>Remove</th>
+          <th>Имя</th>
+          <th>Возраст</th>
+          <th>удалить</th>
         </tr>
       </thead>
       <tbody>
@@ -15,7 +15,7 @@ const Table = ({ employees, delEmployee }) => {
           return (
             <tr key={index}>
               <td>{employee.name}</td>
-              <td>{employee.job}</td>
+              <td>{employee.age}</td>
               <td>
                 <button onClick={() => delEmployee(employee.id)}>Delete</button>
               </td>
