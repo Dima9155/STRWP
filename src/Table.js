@@ -1,31 +1,33 @@
-
 import React from "react";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from "@mui/material";
 
-const Table = ({ employees, delEmployee }) => {
+const EmployeeTable = ({ employees, delEmployee }) => {
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>Имя</th>
-          <th>Возраст</th>
-          <th>удалить</th>
-        </tr>
-      </thead>
-      <tbody>
-        {employees.map((employee, index) => {
-          return (
-            <tr key={index}>
-              <td>{employee.name}</td>
-              <td>{employee.age}</td>
-              <td>
-                <button onClick={() => delEmployee(employee.id)}>Delete</button>
-              </td>
-            </tr>
-          );
-        })}
-      </tbody>
-    </table>
+    <TableContainer component={Paper}>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>Имя</TableCell>
+            <TableCell>Возраст</TableCell>
+            <TableCell>Удалить</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {employees.map((employee, index) => (
+            <TableRow key={index}>
+              <TableCell>{employee.name}</TableCell>
+              <TableCell>{employee.age}</TableCell>
+              <TableCell>
+                <Button variant="contained" color="secondary" onClick={() => delEmployee(employee.id)}>
+                  Удалить
+                </Button>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 };
 
-export default Table;
+export default EmployeeTable;
