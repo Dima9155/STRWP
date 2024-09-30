@@ -29,4 +29,3 @@ const Table = ({ employees, delEmployee }) => {
 };
 
 export default Table;
-
