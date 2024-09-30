@@ -1,6 +1,7 @@
 import "./App.css";
+import Form from "./Form";
 import EmployeeAPI from "./api/service";
-import Table from"./Table";
+import Table from "./Table";
 import { useState } from "react";
 
 const initialEmployees = EmployeeAPI.all();
@@ -9,14 +10,22 @@ function App() {
   const [employees, setEmloyees] = useState(initialEmployees);
 
   const delEmp = (id) => {
-    if (EmployeeAPI.delete(id)){
+    if (EmployeeAPI.delete(id)) {
       setEmloyees(employees.filter((employee) => employee.id !== id));
     }
   };
-  
-  return(
+
+  const addEmployee = (employee) => {
+    const newEmployee = EmployeeAPI.add(employee);
+    if (newEmployee) {
+      setEmloyees([...employees, newEmployee]);
+    }
+  };
+
+  return (
     <div className="App">
-      <Table employees={employees} delEmployee={delEmp}/>
+      <Form handleSubmit={addEmployee} inEmployee={{ name: "", age: "" }} />
+      <Table employees={employees} delEmployee={delEmp} />
     </div>
   );
 }
