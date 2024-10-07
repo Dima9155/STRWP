@@ -1,5 +1,8 @@
 import React from "react";
 import { useState } from "react";
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
 
 const Form = ({ handleSubmit, inEmployee }) => {
   const [employee, setEmployee] = useState(inEmployee);
@@ -16,23 +19,26 @@ const Form = ({ handleSubmit, inEmployee }) => {
   };
 
   return (
-    <form onSubmit={onSubmit}>
-      <label htmlFor="name">Name</label>
-      <input
-        type="text"
+    <Box component="form" onSubmit={onSubmit} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+      <TextField
+        label="Name"
+        variant="outlined"
         name="name"
         value={employee.name}
         onChange={handleChange}
+        required
       />
-      <label htmlFor="Age">Age</label>
-      <input
-        type="text"
+      <TextField
+        label="Age"
+        type="number"
+        variant="outlined"
         name="age"
+        required
         value={employee.age}
         onChange={handleChange}
       />
-      <button type="submit">Add</button>
-    </form>
+      <Button type="submit" variant="contained">Add</Button>
+    </Box>
   );
 };
 
