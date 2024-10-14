@@ -41,7 +41,7 @@ function App() {
       <div className="App">
         <Routes>
           <Route path="/login" element={<Login setToken={setToken} />} />
-          <Route path="/app" element={token ? (
+          <Route path="/Home" element={token ? (
             <div>
               <Form handleSubmit={addEmployee} inEmployee={{ name: '', age: '', username: '', password: '' }} />
               <Table employees={employees} delEmployee={delEmp} />

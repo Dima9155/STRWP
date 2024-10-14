@@ -1,36 +1,45 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import { useState } from "react";
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
 
-function Login({ setToken }) {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const navigate = useNavigate();
+const Form = ({ handleSubmit, inEmployee }) => {
+  const [employee, setEmployee] = useState(inEmployee);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.post('/api/login', { username, password });
-      setToken(response.data.token);
-      navigate('/dashboard');
-    } catch (error) {
-      console.error('Login failed', error);
-    }
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setEmployee({ ...employee, [name]: value });
+  };
+
+  const onSubmit = (event) => {
+    event.preventDefault();
+    handleSubmit(employee);
+    setEmployee(inEmployee);
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Username:
-        <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
-      </label>
-      <label>
-        Password:
-        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-      </label>
-      <button type="submit">Login</button>
-    </form>
+    <Box component="form" onSubmit={onSubmit} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+      <TextField
+        label="Name"
+        variant="outlined"
+        name="name"
+        value={employee.name}
+        onChange={handleChange}
+        required
+      />
+      <TextField
+        label="Age"
+        type="number"
+        variant="outlined"
+        name="age"
+        required
+        value={employee.age}
+        onChange={handleChange}
+      />
+      <Button type="submit" variant="contained">Add</Button>
+    </Box>
   );
-}
+};
 
-export default Login;
+export default Form;

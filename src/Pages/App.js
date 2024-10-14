@@ -6,7 +6,7 @@ import { useState } from "react";
 
 const initialEmployees = EmployeeAPI.all();
 console.log(initialEmployees);
-function Home() {
+function App() {
   const [employees, setEmloyees] = useState(initialEmployees);
 
   const delEmp = (id) => {
