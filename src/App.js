@@ -38,8 +38,8 @@ function App() {
             <Route path="/" element={
               isAuthenticated ? (
                 <>
-                  <p>Welcome, {currentUser}!</p> {/* Приветственное сообщение */}
-                  <Form handleSubmit={addEmployee} inEmployee={{ name: "", surname: "", age: "" }} />
+                  <p>Welcome, {currentUser}!</p> {}
+                  <Form handleSubmit={addEmployee} inEmployee={{ name: "", age: "" }} />
                   <Table employees={employees} delEmployee={delEmp} />
                 </>
               ) : (

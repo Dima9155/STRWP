@@ -6,7 +6,7 @@ const users = [
   ];
   
 
-function Login(setAuth) {
+function Login({setAuth}) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
@@ -15,7 +15,7 @@ function Login(setAuth) {
     e.preventDefault();
     const user = users.find((user) => user.username === username && user.password === password);
     if (user) {
-        setAuth(username);
+      setAuth(username);
         navigate("/");
       } else {
         alert("Неверные данные для входа");
