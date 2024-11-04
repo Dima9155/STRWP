@@ -1,9 +1,9 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Navbar from './Navbar';
-import Login from '../Pages/Login/Login';
-import Form from '../Pages/Home/Component/Form';
-import Table from '../Pages/Home/Component/Table';
+import Login from './Pages/Login/Login';
+import Form from './Pages/Home/Component/Form';
+import Table from './Pages/Home/Component/Table';
 
 
 const AppRouter = ({ isAuthenticated, currentUser, setAuth, addEmployee, delEmployee, employees }) => {
