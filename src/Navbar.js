@@ -9,7 +9,7 @@ const Navbar = () => {
         <Typography variant="h6" sx={{ flexGrow: 1 }}>
           My App
         </Typography>
-        <Button color="inherit" component={Link} to="/">Home</Button>
+        <Button color="inherit" component={Link} to="/">Главная</Button>
         <Button color="inherit" component={Link} to="/Login">Login</Button>
       </Toolbar>
     </AppBar>
