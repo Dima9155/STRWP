@@ -3,8 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { TextField, Button, Container, Typography, Box } from '@mui/material';
 
 const users = [
-  { username: "admin", password: "admin" },
+  { username: "admin", password: "admin", role: "admin" },
+  { username: "user", password: "user", role: "user" }, 
 ];
+
 
 function Login({ setAuth }) {
   const [username, setUsername] = useState('');
@@ -15,12 +17,13 @@ function Login({ setAuth }) {
     e.preventDefault();
     const user = users.find((user) => user.username === username && user.password === password);
     if (user) {
-      setAuth(username);
+      setAuth({ username: user.username, role: user.role });
       navigate("/");
     } else {
       alert("Неверные данные для входа");
     }
   };
+  
 
   return (
     <Container maxWidth="sm" sx={{ 
