@@ -37,17 +37,17 @@ const darkTheme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: "#90caf9",
+      main: "#f99096",
     },
     secondary: {
-      main: "#f48fb1",
+      main: "#d10046",
     },
     background: {
       default: "#121212",
       paper: "#1e1e1e",
     },
     text: {
-      primary: "#ffffff",
+      primary: "#ffbe8b",
       secondary: "#aaaaaa",
     },
   },
@@ -58,7 +58,7 @@ const darkTheme = createTheme({
     },
     body1: {
       fontSize: "1rem",
-      color: "#ffffff",
+      color: "#c33b3b",
     },
   },
   shape: {
