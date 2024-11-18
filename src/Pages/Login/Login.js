@@ -32,7 +32,7 @@ function Login({ setAuth }) {
       alignItems: 'center', 
       justifyContent: 'center', 
       minHeight: '100vh', 
-      backgroundColor: '#f4f6f8',
+      backgroundColor: '#006fde',
       padding: 4,
       borderRadius: 2,
       boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)'
