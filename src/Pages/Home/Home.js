@@ -1,28 +1,52 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ThemeProvider, CssBaseline, Button, Box } from "@mui/material";
 import { lightTheme, darkTheme } from "../theme";
 import Form from "./Pages/Components/Form";
 import EmployeeAPI from "./api/service";
-import Table from "./Pages/Components/Table";
-import { useState } from "react";
+import EmployeeTable from "./Pages/Components/Table";
 
-const initialEmployees = EmployeeAPI.all();
-console.log(initialEmployees);
 function Home() {
-  const [employees, setEmloyees] = useState(initialEmployees);
+  const [employees, setEmployees] = useState([]);
   const [isDarkMode, setIsDarkMode] = useState(false);
 
+  useEffect(() => {
+    EmployeeAPI.all()
+      .then((data) => {
+        setEmployees(data);
+      })
+      .catch((error) => {
+        console.error('Ошибка при получении сотрудников:', error);
+      });
+  }, []);
+
+  useEffect(() => {
+    console.log(employees);
+  }, [employees]);
+
   const delEmp = (id) => {
-    if (EmployeeAPI.delete(id)) {
-      setEmloyees(employees.filter((employee) => employee.id !== id));
-    }
+    EmployeeAPI.delete(id)
+      .then(() => {
+        setEmployees((prevEmployees) =>
+          prevEmployees.filter((employee) => employee.id !== id)
+        );
+      })
+      .catch((error) => {
+        console.error('Ошибка при удалении сотрудника:', error);
+      });
   };
 
   const addEmployee = (employee) => {
-    const newEmployee = EmployeeAPI.add(employee);
-    if (newEmployee) {
-      setEmloyees([...employees, newEmployee]);
-    }
+    console.log(employee)
+    EmployeeAPI.add(employee)
+      .then((newEmployee) => {
+        setEmployees((prevEmployees) => [
+          ...prevEmployees, // Добавляем нового сотрудника в конец списка
+          employee,
+        ]);
+      })
+      .catch((error) => {
+        console.error('Ошибка при добавлении сотрудника:', error);
+      });
   };
 
   const toggleTheme = () => {
@@ -39,7 +63,7 @@ function Home() {
       </Box>
       <div className="Home">
         <Form handleSubmit={addEmployee} inEmployee={{ name: "", age: "" }} />
-        <Table employees={employees} delEmployee={delEmp} />
+        <EmployeeTable employees={employees} delEmployee={delEmp} />
       </div>
     </ThemeProvider>
   );
