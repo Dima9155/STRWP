@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { TextField, Button, Container, Typography, Box } from '@mui/material';
+import axios from 'axios';
 
 const users = [
   { username: "admin", password: "admin", role: "admin" },
@@ -13,14 +14,39 @@ function Login({ setAuth }) {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    try {
+      const response = await axios.post("http://localhost:5000/login", {
+        username,
+        password,
+      });
+
+      if (response.data.access_token) {
+        localStorage.setItem('token', response.data.access_token); // Сохраняем токен в localStorage
+        localStorage.setItem('username', username);
+        localStorage.setItem('role', response.data.role);
+        setAuth(response.data.access_token); // Обновляем состояние авторизации
+        navigate("/");
+      } else {
+          console.error("bad auth response");
+      }
+  
+      console.log("Успешный вход:", response.data);
+  
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response?.status === 401) {
+        alert("Неверные данные для входа");
+      } else {
+        console.error("Ошибка при авторизации:", error);
+      }
+    }
     const user = users.find((user) => user.username === username && user.password === password);
     if (user) {
       setAuth({ username: user.username, role: user.role });
       navigate("/");
     } else {
-      alert("Неверные данные для входа");
+      // alert("Неверные данные для входа");
     }
   };
   
