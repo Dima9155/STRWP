@@ -1,16 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ThemeProvider, CssBaseline, Button, Box } from '@mui/material';
 import { lightTheme, darkTheme } from './theme'; // Импорт светлой и тёмной тем
 import AppRouter from './Router';
 import EmployeeAPI from './api/service';
 import "./App.css";
 
+
 const App = () => {
-  const [employees, setEmployees] = useState(EmployeeAPI.all());
+  const [employees, setEmployees] = useState([]);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
   const [userRole, setUserRole] = useState(null);
   const [isDarkMode, setIsDarkMode] = useState(false); // состояние для текущей темы
+
+  // Загрузка сотрудников при монтировании компонента
+  useEffect(() => {
+    EmployeeAPI.all()
+      .then((data) => {
+        setEmployees(data);
+      })
+      .catch((error) => {
+        console.error('Ошибка при получении сотрудников:', error);
+      });
+  }, []);
 
   const handleAuth = ({ username, role }) => {
     setIsAuthenticated(true);
@@ -19,8 +31,17 @@ const App = () => {
   };
 
   const deleteEmployee = (id) => {
-    if (userRole === "admin" && EmployeeAPI.delete(id)) {
-      setEmployees(employees.filter((employee) => employee.id !== id));
+    if (userRole === "admin") {
+      console.log(id)
+      EmployeeAPI.delete(id)
+        .then(() => {
+          setEmployees((prevEmployees) =>
+            prevEmployees.filter((employee) => employee.id !== id)
+          );
+        })
+        .catch((error) => {
+          console.error('Ошибка при удалении сотрудника:', error);
+        });
     } else {
       alert("У вас нет прав для удаления");
     }
@@ -28,10 +49,16 @@ const App = () => {
 
   const addEmployee = (employee) => {
     if (userRole === "admin") {
-      const newEmployee = EmployeeAPI.add(employee);
-      if (newEmployee) {
-        setEmployees([...employees, newEmployee]);
-      }
+      EmployeeAPI.add(employee)
+        .then((newEmployee) => {
+          setEmployees((prevEmployees) => [
+            ...prevEmployees,
+            {...employee, 'id': newEmployee.id},
+          ]);
+        })
+        .catch((error) => {
+          console.error('Ошибка при добавлении сотрудника:', error);
+        });
     } else {
       alert("У вас нет прав для добавления сотрудника");
     }

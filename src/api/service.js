@@ -1,34 +1,77 @@
+import axios from 'axios';
+
+const apiUrl = 'http://localhost:5000';
+
 const EmployeeAPI = {
-  employees: [
+  all: function() {
+    const token = localStorage.getItem('token');
+    return axios.get(`${apiUrl}/employees`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then(response => response.data)
+    .catch(error => {
+      console.error('Error fetching employees:', error);
+      throw error;
+    });
+  },
 
-    { id: 1, name: "Шумансикй Илья", age: "20" },
-    { id: 2, name: "Синяков Даниель", age: "19" },
-    { id: 3, name: "Синелобова Анастасия", age: "23" },
-    { id: 4, name: "Шапурова Елизовета", age: "21" },
-    { id: 5, name: "Хоронеко Никита", age: "18" },
-    { id: 6, name: "Плисунов Роман", age: "22" },
+  get: function(id) {
+    const token = localStorage.getItem('token');
+    return axios.get(`${apiUrl}/employees/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then(response => response.data)
+    .catch(error => {
+      console.error(`Error fetching employee with id ${id}:`, error);
+      throw error;
+    });
+  },
 
-  ],
-  all: function () {
-    return this.employees;
+  delete: function(id) {
+    const token = localStorage.getItem('token');
+    return axios.delete(`${apiUrl}/employees/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then(() => true)
+    .catch(error => {
+      console.error(`Error deleting employee with id ${id}:`, error);
+      throw error;
+    });
   },
-  get: function (id) {
-    const isEmployee = (p) => p.id === id;
-    return this.employees.find(isEmployee);
+
+  add: function(employee) {
+    const token = localStorage.getItem('token');
+    return axios.post(`${apiUrl}/employees`, employee, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then(response => response.data.employee)
+    .catch(error => {
+      console.error('Error adding employee:', error);
+      throw error;
+    });
   },
-  delete: function (id) {
-    const isNotDelEmployee = (p) => p.id !== id;
-    this.employees = this.employees.filter(isNotDelEmployee);
-    return true;
-  },
-  add: function (employee) {
-    this.employees.shift(employee);
-    return employee;
-  },
-  update: function (employee) {
-    this.get();
-    this.employees.shift(employee);
-    return employee;
-  },
+
+  update: function(employee) {
+    const token = localStorage.getItem('token');
+    return axios.put(`${apiUrl}/employees/${employee.id}`, employee, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then(response => response.data)
+    .catch(error => {
+      console.error(`Error updating employee with id ${employee.id}:`, error);
+      throw error;
+    });
+  }
 };
+
 export default EmployeeAPI;
